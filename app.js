@@ -1,6 +1,6 @@
 function filter(array,amountHigh) {
 	var houses = [];
-	console.log(amountHigh);
+	// console.log(array);
 	var amountLow = 0;
 
 	if (amountHigh === 50000){
@@ -27,7 +27,7 @@ function filter(array,amountHigh) {
 		if(house >= amountLow && house <= amountHigh){
 			// console.log(typeof house);
 			// console.log(house)
-			houses.push(house);
+			houses.push(array[i]);
 			// debugger
 		}
 	}
@@ -46,7 +46,13 @@ $(document).ready(function() {
 	// console.log(checkBoxes);
 
 	$(checkBoxes).on("click", function(){
-		var high = parseInt($(this).val());
-		filter(homeArray,($(high)[0]));
+		if($(this).is(":checked")) {
+			var high = parseInt($(this).val());
+			var selectedHouses = filter(homeArray,($(high)[0]));
+		}
+		$(homeArray).hide();
+		$(selectedHouses).show();
+
 	});
+
 });
