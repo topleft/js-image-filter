@@ -31,7 +31,7 @@ function filter(array,amountHigh) {
 			// debugger
 		}
 	}
-	console.log(houses)
+	console.log(houses);
 	return houses;
 }
 
@@ -44,14 +44,24 @@ $(document).ready(function() {
 
 	var checkBoxes = $(".filters").find("input");
 	// console.log(checkBoxes);
-
+// Still need to keep mulitple value ranges on page (multiple clicks), also if 2 boxes are checked then append images to DOM rather than clear. 
 	$(checkBoxes).on("click", function(){
+		var highCheck = 0;
+		for (var i = 0; i < checkBoxes.length; i++) {
+			if ($(checkBoxes[i]).is(":checked")) {
+			var price = parseInt($(checkBoxes[i]).val());
+			if (price > highCheck) {
+				highCheck = price;
+			}
+			}
+		};
 		if($(this).is(":checked")) {
 			var high = parseInt($(this).val());
-			var selectedHouses = filter(homeArray,($(high)[0]));
+			var selectedHouses = filter(homeArray,(highCheck));
 		}
 		$(homeArray).hide();
 		$(selectedHouses).show();
+
 
 	});
 
