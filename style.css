@@ -1,4 +1,4 @@
-* {
+	* {
 	box-sizing: border-box;
 }
 html,
@@ -123,7 +123,7 @@ article.home {
 .textures {
 	float: right;
 	height: 50px;
-	width: 100px;
+	width: 150px;
 	background: rgba(255,255,255,0.8);
 	text-align: center;
 	border-radius: 5px;
@@ -142,9 +142,18 @@ article.home {
 .textures span:hover {
 	cursor: pointer;
 }
+
+.forest {
+	background-size: cover;
+}
 span.dark {
 	background: url("img/dark_wood.png") no-repeat;
 }
 span.light {
 	background: url("img/tileable_wood_texture.png") no-repeat;
 }
+span.forest {
+	background: url("img/forest.jpg") no-repeat;
+}
+
+

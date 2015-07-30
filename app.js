@@ -25,21 +25,69 @@ function filter(array,amountHigh) {
 	for (var i = 0; i < array.length; i++) {
 		var house = parseInt($(array[i]).attr("data-price"));
 		if(house >= amountLow && house <= amountHigh){
-			// console.log(typeof house);
-			// console.log(house)
 			houses.push(array[i]);
-			// debugger
 		}
 	}
 	console.log(houses);
 	return houses;
 }
 
+function createHouse(array, data, jpg, priceTag ){
+
+	var newHome = ($(array[0]).clone())[0];
+	$(newHome).attr("data-price", data);
+	$(newHome).find("img").attr("src", jpg);
+	$(newHome).find("h4").html(priceTag);
+	return newHome;
+};
+
+
+function highLow (array) {
+	// for (var i = 0; i < array.length; i++) {
+	// 	var house = parseInt($(array[i]).attr("data-price"));
+	// 	prices.array[i] = house;
+
+	// }	
+
+	var sorted = array.sort(function (a, b) {
+		debugger;
+		parseInt($(a).attr("data-price")) - parseInt($(b).attr("data-price"));
+	});
+  	return sorted;
+}
+		
+
+
 
 
 $(document).ready(function() {
 	var homeArray =	$('.image-container').find("article");
-		// console.log(filter(homeArray, 50000, 100000));
+
+	console.log(highLow(homeArray));
+		
+
+	$(".image-container").append($(createHouse(homeArray, "10000", "img/four.jpg", "$10,000")));
+	$(".image-container").append($(createHouse(homeArray, "10000", "img/four.jpg", "$10,000")));
+	$(".image-container").append($(createHouse(homeArray, "10000", "img/four.jpg", "$10,000")));
+
+	$(".textures").append("<span class='forest'></span>");
+
+	$('.light').on('click',function(e) {
+		e.preventDefault();
+		$('body').css('background', 'url("img/tileable_wood_texture.png")', "no-repeat;");
+	});
+
+	$('.dark').on('click',function(e) {
+		e.preventDefault();
+		$('body').css('background', 'url("img/dark_wood.png")', "no-repeat");
+		
+	});	
+
+	$('.forest').on('click',function(e) {
+		e.preventDefault();
+		$('body').css('background', 'url("img/forest.jpg")', "no-repeat");
+		
+	});	
 
 
 	var checkBoxes = $(".filters").find("input");
@@ -66,3 +114,5 @@ $(document).ready(function() {
 	});
 
 });
+
+
