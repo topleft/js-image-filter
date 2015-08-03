@@ -1,97 +1,92 @@
 
 
 $(document).ready(function(){
-	var houses = $("article");
+
+	var houses = $(".home article");
+	console.log(houses)
+
+
+	//create new houses
+	$(".image-container").append($(createHouse(houses, "320000", "img/four.jpg", "$320,000")));
+	$(".image-container").append($(createHouse(houses, "400000", "img/four.jpg", "$400,000")));
+	$(".image-container").append($(createHouse(houses, "150000", "img/four.jpg", "$150,000")));
+
+	houses = $("article");
+
+	$(".textures").append("<span class='forest'></span>");
+
+	$('.light').on('click',function(e) {
+		e.preventDefault();
+		$('body').css('background', 'url("img/tileable_wood_texture.png")', "no-repeat;");
+	});
+
+	$('.dark').on('click',function(e) {
+		e.preventDefault();
+		$('body').css('background', 'url("img/dark_wood.png")', "no-repeat");
+
+	});
+
+	$('.forest').on('click',function(e) {
+		e.preventDefault();
+		$('body').css('background', 'url("img/forest.jpg")', "no-repeat");
+
+	});
 
 
 	$(".filters input").on('click', function(){
+		houses.hide();
+
 		var checked = $(".filters input:checkbox:checked")
-		var filterPrice = parseInt($(this).val());
 
 		// make sure something is selected
 		if(checked.length > 0){
-			houses.hide();
-			// add filtering
-			for (var i = 0; i < houses.length; i++) {
-				var housePrice = parseInt($(houses[i])[0].dataset.price);
+			//looop through checked boxes
+			for (var j = 0; j < checked.length; j++) {
+				// set high price for current checked box
+				var hiPrice = parseInt($(checked[j]).val());
+				// look for 0-50,000 filter, it doesn't have upper sibling, needs to be set manually
+				if(hiPrice === 50000)
+					var lowPrice = 0;
+				else
+					var lowPrice = parseInt($(checked[j]).parent().prev().find("input")[0].value);
 
-				if(housePrice < filterPrice){
-					$(houses[i]).show();
-					console.log($(this).val()+" > "+$("article")[i].dataset.price);
+				for (var i = 0; i < houses.length; i++) {
+					var housePrice = parseInt($(houses[i])[0].dataset.price);
+					if(housePrice <= hiPrice && housePrice >= lowPrice){
+						$(houses[i]).show();
+						console.log($(checked[j]).val()+" > "+$("article")[i].dataset.price);
+					};
+				}
 			};
-			}
 		}
 		else $("article").show();
+	});
+
+	$(".sort .low").on("click", function(e){
+		e.preventDefault();
+		console.log($(".image-container").children());
+		$(".image-container").children().sort(function (a, b) {
+			return (parseInt($(a).attr("data-price")) - parseInt($(b).attr("data-price")));
+		});
 	});
 });
 
 
+function createHouse(array, data, jpg, priceTag){
 
+	var newHome = ($(array[0]).clone())[0];
+	$(newHome).attr("data-price", data);
+	$(newHome).find("img").attr("src", jpg);
+	$(newHome).find("h4").html(priceTag);
+	return newHome;
+};
 
-
-
-
-
-
-
-
-
-// function filter(array,amountHigh) {
-// 	var houses = [];
-// 	// console.log(array);
-// 	var amountLow = 0;
-
-// 	if (amountHigh === 50000){
-// 		amountLow = 0;
-// 	}
-// 	else if (amountHigh === 100000) {
-// 		amountLow = 50000;
-// 	}
-// 	else if (amountHigh === 200000) {
-// 		amountLow = 100000;
-// 	}
-// 	else if (amountHigh === 300000) {
-// 		amountLow = 200000;
-// 	}
-// 	else if (amountHigh === 500000) {
-// 		amountLow = 300000;
-// 	}
-// 	else if (amountHigh === 1000000) {
-// 		amountLow = 500000;
-// 	}
-
-// 	for (var i = 0; i < array.length; i++) {
-// 		var house = parseInt($(array[i]).attr("data-price"));
-// 		if(house >= amountLow && house <= amountHigh){
-// 			houses.push(array[i]);
-// 		}
-// 	}
-// 	console.log(houses);
-// 	return houses;
-// }
-
-// function createHouse(array, data, jpg, priceTag ){
-
-// 	var newHome = ($(array[0]).clone())[0];
-// 	$(newHome).attr("data-price", data);
-// 	$(newHome).find("img").attr("src", jpg);
-// 	$(newHome).find("h4").html(priceTag);
-// 	return newHome;
-// };
-
-
-// function highLow (array) {
-// 	// for (var i = 0; i < array.length; i++) {
-// 	// 	var house = parseInt($(array[i]).attr("data-price"));
-// 	// 	prices.array[i] = house;
-
-// 	// }
-
-// 	var sorted = array.sort(function (a, b) {
-// 		parseInt($(a).attr("data-price")) - parseInt($(b).attr("data-price"));
-// 	});
-//   	return sorted;
-// }
+function highLow (array) {
+	var sorted = array.sort(function (a, b) {
+		parseInt($(a).attr("data-price")) - parseInt($(b).attr("data-price"));
+	});
+  	return sorted;
+}
 
 
 
