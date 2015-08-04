@@ -4,7 +4,6 @@ $(document).ready(function(){
 
 	var houses = $("article");
 
-
 	console.log(houses);
 	//create new houses
 	$(".image-container").append(
@@ -13,7 +12,7 @@ $(document).ready(function(){
 				$(createHouse(houses, "225000", "img/four.jpg", "$150,000"))
 	);
 
-	houses = $("article");
+	// houses = $("article");
 
 	// add background texture option //
 	$(".textures").append("<span class='forest'></span>");
@@ -39,38 +38,16 @@ $(document).ready(function(){
 		    break;
 		}
 });
+});
 
-
-
-
-
+// filter by price
 	$(".filters input").on('click', function(){
+		var houses = $("article");
+		var checked = $(".filters input:checkbox:checked");
 		houses.hide();
 
-	var checked = $(".filters input:checkbox:checked")
+		filterByPrice(checked, houses);
 
-		// make sure something is selected
-	if(checked.length > 0){
-		//looop through checked boxes
-		for (var j = 0; j < checked.length; j++) {
-			// set high price for current checked box
-			var hiPrice = parseInt($(checked[j]).val());
-			// look for 0-50,000 filter, it doesn't have upper sibling, needs to be set manually
-			if(hiPrice === 50000)
-				var lowPrice = 0;
-			else
-				var lowPrice = parseInt($(checked[j]).parent().prev().find("input")[0].value);
-
-			for (var i = 0; i < houses.length; i++) {
-				var housePrice = parseInt($(houses[i])[0].dataset.price);
-				if(housePrice <= hiPrice && housePrice >= lowPrice){
-					$(houses[i]).show();
-				};
-			}
-		};
-	}
-	else $("article").show();
-	});
 
 	//sort houses by price
 	$(".sort a").on("click", function(e){
@@ -91,6 +68,29 @@ $(document).ready(function(){
 
 
 
+function filterByPrice(checked, houses){
+		// make sure something is selected
+	if(checked.length > 0){
+		//loop through checked boxes
+		for (var j = 0; j < checked.length; j++) {
+			// set high price for current checked box
+			var hiPrice = parseInt($(checked[j]).val());
+			// look for 0-50,000 filter, it doesn't have upper sibling, needs to be set manually
+			if(hiPrice === 50000)
+				var lowPrice = 0;
+			else
+				var lowPrice = parseInt($(checked[j]).parent().prev().find("input")[0].value);
+
+			for (var i = 0; i < houses.length; i++) {
+				var housePrice = parseInt($(houses[i])[0].dataset.price);
+				if(housePrice <= hiPrice && housePrice >= lowPrice){
+					$(houses[i]).show();
+				};
+			}
+		};
+	}
+	else $("article").show();
+};
 
 function createHouse(array, data, jpg, priceTag){
 	var newHome = ($(array[0]).clone())[0];
